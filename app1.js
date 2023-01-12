@@ -35,10 +35,15 @@ app1.use(helmet());
 app1.use(cors());
 app1.use(xss());
 
-app1.get("/", (req, res) => {
-  res.send("jobs api");
-});
+//Swagger
+const swaggerUI = require("swagger-ui-express");
+const YAML = require("yamljs");
+const swaggerDocument = YAML.load("./swagger.yaml");
 
+app1.get("/", (req, res) => {
+  res.send('<h1>Jobs API</h1><a href="/api-docs">Documentation</a>');
+});
+app1.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app1.use("/api/v1/auth", authRouter);
 app1.use("/api/v1/jobs", authenticateUser, jobsRouter);
 
