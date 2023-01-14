@@ -1,7 +1,6 @@
 const Job = require("../models/job");
 const { StatusCodes } = require("http-status-codes");
 const { BadRequestError, NotFoundError } = require("../errors");
-const job = require("../models/job");
 
 const getAllJobs = async (req, res) => {
   const jobs = await Job.find({ createBy: req.user.userId }).sort("createAt");

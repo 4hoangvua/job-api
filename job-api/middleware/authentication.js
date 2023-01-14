@@ -11,9 +11,12 @@ const auth = (req, res, next) => {
   const token = authHeader.split(" ")[1];
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
-    // const user = User.findById(payload.id).select("-password")
-    // req.user = user;
-    req.user = { userId: payload.userId, name: payload.name };
+
+    req.user = {
+      userId: payload.userId,
+      name: payload.name,
+      role: payload.role,
+    };
     next();
   } catch (error) {
     throw new UnauthenticatedError("Authentication invalid");
